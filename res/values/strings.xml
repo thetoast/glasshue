@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GlassHue2</string>
+    
+    <!-- Menu Strings -->
+    <string name="connect">Connect</string>
+    <string name="forget_connection">Forget Connection</string>
+    <string name="test_connection">Test Connection</string>
+    
+    <!-- Display Strings -->
+    <string name="bridge_label">Bridge:</string>
+    <string name="no_bridge">No Bridge</string>
+    
+    <string name="status_label">Status:</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_not_connected">Not Connected</string>
+    <string name="status_not_associated">Not Associated</string>
+    <string name="status_not_registered">Not Registered</string>
+    
+    <string name="instructions_connect">Press the link button on your bridge and select Connect on your Glass again to begin connecting.</string>
+    <string name="instructions_connecting">Connecting&#8230;</string>
+    <string name="instructions_err_no_bridge">Could not determine bridge address.</string>
+    <string name="instructions_err_create_user">Could not create api user.</string>
+    <string name="instructions_err_command_flash">Error flashing lights.</string>
+    <string name="instructions_err_not_enough_args">Not enough arguments provided.</string>
+    <string name="instructions_err_bad_id">Not a valid light or group id.</string>
+    <string name="instructions_err_bad_flash_target">Must say "all", "light", or "group"</string>
+    
+    <!-- Voice Prompt Strings -->
+    <string name="control_lights">Manage Lights</string>
+    <string name="configure">Configure</string>
+    <string name="flash_lights">Flash</string>
+    <string name="turn_on_lights">Turn On</string>
+    <string name="turn_off_lights">Shut Off</string>
+    <string name="control_lights_id_prompt">Say "all" for all lights. Or, say "light" or "group" followed by a number.</string>
+
+</resources>

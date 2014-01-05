@@ -1,0 +1,3 @@
+<trigger keyword="@string/control_lights">
+    <input prompt="@string/control_lights_id_prompt" />
+</trigger>
