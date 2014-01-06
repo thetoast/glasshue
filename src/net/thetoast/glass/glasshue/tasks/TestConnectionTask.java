@@ -1,4 +1,4 @@
-package net.thetoast.glass.glasshue2.tasks;
+package net.thetoast.glass.glasshue.tasks;
 
 import java.io.BufferedReader;
 import java.io.IOException;

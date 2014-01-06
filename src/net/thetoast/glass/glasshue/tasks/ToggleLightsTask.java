@@ -1,4 +1,4 @@
-package net.thetoast.glass.glasshue2.tasks;
+package net.thetoast.glass.glasshue.tasks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,25 +19,27 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class FlashLightsTask extends AsyncTask <Void, Void, Boolean> {
-	private static final String TAG = "FlashLightsTask";
+public class ToggleLightsTask extends AsyncTask <Void, Void, Boolean> {
+	private static final String TAG = "ToggleLightsTask";
 	
 	private ResultListener listener;
 	private String bridgeAddr;
 	private String apiUser;
 	private int id;
 	private boolean isGroup;
+	private boolean on;
 	
-	public FlashLightsTask(String bridgeAddr, String apiUser, int id, boolean isGroup, ResultListener listener) {
+	public ToggleLightsTask(String bridgeAddr, String apiUser, int id, boolean isGroup, boolean on, ResultListener listener) {
 		this.listener = listener;
 		this.bridgeAddr = bridgeAddr;
 		this.apiUser = apiUser;
 		this.id = id;
 		this.isGroup = isGroup;
+		this.on = on;
 	}
 	
 	protected Boolean doInBackground(Void... voids) {
-		Log.d(TAG, "Flashing lights");
+		Log.d(TAG, "Toggling lights");
 		DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
 		StringBuilder sb = new StringBuilder();
 		sb.append("http://").append(bridgeAddr).append("/api/").append(apiUser)
@@ -49,7 +51,7 @@ public class FlashLightsTask extends AsyncTask <Void, Void, Boolean> {
 		
 		try {
 			JSONObject recData = new JSONObject();
-			recData.put("alert", "select");
+			recData.put("on", on);
 			put.setEntity(new StringEntity(recData.toString()));
 			
 			HttpResponse resp = httpClient.execute(put);
@@ -70,7 +72,7 @@ public class FlashLightsTask extends AsyncTask <Void, Void, Boolean> {
 				if (json.has("success")) {
 					result = true;
 				} else {
-					Log.e(TAG, "Unable to flash lights: " + json.getJSONObject("error").getString("description"));
+					Log.e(TAG, "Unable to toggle lights: " + json.getJSONObject("error").getString("description"));
 				}
 			} else {
 				Log.e(TAG, "No respose found");
@@ -96,7 +98,7 @@ public class FlashLightsTask extends AsyncTask <Void, Void, Boolean> {
 		if (success) {
 			listener.notifyResult(success);
 		} else {
-			Log.e(TAG, "Unable to flash lights");
+			Log.e(TAG, "Unable to toggle lights");
 			listener.notifyError();
 		}
 	}

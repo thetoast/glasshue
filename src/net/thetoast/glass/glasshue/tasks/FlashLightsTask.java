@@ -1,4 +1,4 @@
-package net.thetoast.glass.glasshue2.tasks;
+package net.thetoast.glass.glasshue.tasks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -19,35 +19,45 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class CreateUserTask extends AsyncTask <Void, Void, String> {
-	private static final String TAG = "CreateUserTask";
+public class FlashLightsTask extends AsyncTask <Void, Void, Boolean> {
+	private static final String TAG = "FlashLightsTask";
 	
 	private ResultListener listener;
 	private String bridgeAddr;
+	private String apiUser;
+	private int id;
+	private boolean isGroup;
 	
-	public CreateUserTask(String bridgeAddr, ResultListener listener) {
+	public FlashLightsTask(String bridgeAddr, String apiUser, int id, boolean isGroup, ResultListener listener) {
 		this.listener = listener;
 		this.bridgeAddr = bridgeAddr;
+		this.apiUser = apiUser;
+		this.id = id;
+		this.isGroup = isGroup;
 	}
 	
-	protected String doInBackground(Void... voids) {
-		Log.d(TAG, "Creating user");
+	protected Boolean doInBackground(Void... voids) {
+		Log.d(TAG, "Flashing lights");
 		DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
-		HttpPost post = new HttpPost("http://" + bridgeAddr + "/api");
+		StringBuilder sb = new StringBuilder();
+		sb.append("http://").append(bridgeAddr).append("/api/").append(apiUser)
+		  .append(isGroup ? "/groups/" : "/lights/").append(id)
+		  .append(isGroup ? "/action" : "/state");
+		HttpPut put = new HttpPut(sb.toString());
 		InputStream is = null;
-		String result = null;
+		boolean result = false;
 		
 		try {
 			JSONObject recData = new JSONObject();
-			recData.put("devicetype", "GlassHue");
-			post.setEntity(new StringEntity(recData.toString()));
+			recData.put("alert", "select");
+			put.setEntity(new StringEntity(recData.toString()));
 			
-			HttpResponse resp = httpClient.execute(post);
+			HttpResponse resp = httpClient.execute(put);
 			HttpEntity entity = resp.getEntity();
 			
 			is = entity.getContent();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			StringBuilder sb = new StringBuilder();
+			sb = new StringBuilder();
 			String line = null;
 			
 			while ((line = br.readLine()) != null) {
@@ -58,9 +68,9 @@ public class CreateUserTask extends AsyncTask <Void, Void, String> {
 			if (arr.length() > 0) {
 				JSONObject json = arr.getJSONObject(0);
 				if (json.has("success")) {
-					result = json.getJSONObject("success").getString("username");
+					result = true;
 				} else {
-					Log.e(TAG, "Unable to create user: " + json.getJSONObject("error").getString("description"));
+					Log.e(TAG, "Unable to flash lights: " + json.getJSONObject("error").getString("description"));
 				}
 			} else {
 				Log.e(TAG, "No respose found");
@@ -82,18 +92,17 @@ public class CreateUserTask extends AsyncTask <Void, Void, String> {
 		return result;
 	}
 	
-	protected void onPostExecute(String apiUser) {
-		if ((apiUser != null) && !apiUser.isEmpty()) {
-			Log.d(TAG, "API User is: " + apiUser);
-			listener.notifyResult(apiUser);
+	protected void onPostExecute(Boolean success) {
+		if (success) {
+			listener.notifyResult(success);
 		} else {
-			Log.e(TAG, "Unable to create API User");
+			Log.e(TAG, "Unable to flash lights");
 			listener.notifyError();
 		}
 	}
 	
 	public interface ResultListener {
-		void notifyResult(String result);
+		void notifyResult(Boolean success);
 		void notifyError();
 	}
 }

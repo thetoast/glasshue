@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.thetoast.glass.glasshue2"
+    package="net.thetoast.glass.glasshue"
     android:versionCode="1"
     android:versionName="0.1" >
 
@@ -15,7 +15,7 @@
         android:label="@string/app_name" >
         
         <activity
-            android:name="net.thetoast.glass.glasshue2.MainActivity"
+            android:name="net.thetoast.glass.glasshue.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
         <activity-alias
             android:label="@string/configure"
             android:name="configure"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="net.thetoast.glass.glasshue.MainActivity">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
@@ -38,7 +38,7 @@
         <activity-alias
             android:label="@string/test_connection"
             android:name="test_connection"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="net.thetoast.glass.glasshue.MainActivity">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
@@ -50,7 +50,7 @@
         <activity-alias
             android:label="@string/flash_lights"
             android:name="flash"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="net.thetoast.glass.glasshue.MainActivity">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
@@ -62,7 +62,7 @@
     	<activity-alias
             android:label="@string/turn_on_lights"
             android:name="on"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="net.thetoast.glass.glasshue.MainActivity">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>
@@ -74,7 +74,7 @@
         <activity-alias
             android:label="@string/turn_off_lights"
             android:name="off"
-            android:targetActivity=".MainActivity">
+            android:targetActivity="net.thetoast.glass.glasshue.MainActivity">
             <intent-filter>
                 <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
             </intent-filter>

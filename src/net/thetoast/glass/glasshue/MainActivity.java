@@ -1,12 +1,13 @@
-package net.thetoast.glass.glasshue2;
+package net.thetoast.glass.glasshue;
 
 import java.util.ArrayList;
 
-import net.thetoast.glass.glasshue2.tasks.CreateUserTask;
-import net.thetoast.glass.glasshue2.tasks.FlashLightsTask;
-import net.thetoast.glass.glasshue2.tasks.GetBridgeTask;
-import net.thetoast.glass.glasshue2.tasks.TestConnectionTask;
-import net.thetoast.glass.glasshue2.tasks.ToggleLightsTask;
+import net.thetoast.glass.glasshue.tasks.CreateUserTask;
+import net.thetoast.glass.glasshue.tasks.FlashLightsTask;
+import net.thetoast.glass.glasshue.tasks.GetBridgeTask;
+import net.thetoast.glass.glasshue.tasks.TestConnectionTask;
+import net.thetoast.glass.glasshue.tasks.ToggleLightsTask;
+import net.thetoast.glass.glasshue.R;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
